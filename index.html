@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>熟語クイズ｜漢検10級（小学1年の漢字）の読み</title>
+<meta name="description" content="漢検10級（小学1年でならう漢字80字）でできた熟語の読みを答えるクイズ。熟語をタップすると読みと意味が出ます。やさしい・ふつう・むずかしいの3つから選べます。">
+<link rel="canonical" href="https://nattom666.github.io/kanji_reading_quiz/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="熟語クイズ">
+<meta property="og:title" content="熟語クイズ｜漢検10級（小学1年の漢字）の読み">
+<meta property="og:description" content="漢検10級（小学1年でならう漢字80字）でできた熟語の読みを答えるクイズ。やさしい・ふつう・むずかしいの3つから選べます。">
+<meta property="og:url" content="https://nattom666.github.io/kanji_reading_quiz/">
+<meta property="og:image" content="https://nattom666.github.io/kanji_reading_quiz/apple-touch-icon.png">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "熟語クイズ",
+ "url": "https://nattom666.github.io/kanji_reading_quiz/",
+ "description": "漢検10級（小学1年でならう漢字80字）でできた熟語の読みを答えるクイズ。139語を収録。",
+ "inLanguage": "ja"
+}
+</script>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+:root{
+  --bg:#faf4e8; --card:#fff; --ink:#33291f; --sub:#8a7a66; --line:#e8dcc6;
+  --accent:#c9553d; --accent-dark:#a33f2c; --ok:#3fa653; --mada:#f2994a;
+  --plate:#fffdf8;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Hiragino Maru Gothic ProN","ヒラギノ丸ゴ ProN",-apple-system,"BIZ UDPGothic","Meiryo",sans-serif;
+  line-height:1.7; -webkit-text-size-adjust:100%;
+  -webkit-tap-highlight-color:transparent;
+}
+ruby{ruby-align:center}
+rt{font-size:.42em; color:var(--sub); font-weight:normal; line-height:1.1}
+.actions button rt, .levels button[aria-pressed="true"] rt{color:rgba(255,255,255,.85)}
+.actions .hintbtn rt{color:var(--sub)}
+button{font-family:inherit; cursor:pointer}
+
+header{padding:14px 16px 6px; text-align:center}
+h1{margin:0; font-size:23px; letter-spacing:.04em}
+h1 .sub{display:block; font-size:12px; color:var(--sub); font-weight:normal; margin-top:6px}
+
+/* やさしい・ふつう・むずかしい のえらぶところ */
+.levels{display:flex; gap:8px; justify-content:center; padding:12px 16px 4px; flex-wrap:wrap}
+.levels button{
+  border:2px solid var(--line); background:#fff; color:var(--sub);
+  border-radius:999px; padding:7px 16px; font-size:15px; font-weight:bold;
+  transition:transform .08s;
+}
+.levels button .n{display:block; font-size:10px; font-weight:normal; margin-top:-2px}
+.levels button[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:#fff}
+.levels button:active{transform:scale(.95)}
+
+main{max-width:560px; margin:0 auto; padding:8px 16px 24px}
+
+/* 熟語のカード。押すとこたえが出る */
+.card{
+  width:100%; background:var(--card); border:2px solid var(--line); border-radius:20px;
+  padding:16px; display:block; text-align:center; box-shadow:0 3px 0 var(--line);
+}
+.plate{
+  background:var(--plate); border:1px solid var(--line); border-radius:12px;
+  min-height:170px; padding:14px 8px;
+  display:flex; align-items:center; justify-content:center;
+}
+/* 出す熟語だけは明朝（教科書体があればそれ）。字の形をおぼえるため */
+.word{
+  font-family:"UD デジタル 教科書体 NK-R","Hiragino Mincho ProN","YuMincho","Yu Mincho",serif;
+  font-weight:600; letter-spacing:.08em; line-height:1.5;
+  font-size:64px;
+}
+.word.len3{font-size:54px}
+.word.len4{font-size:44px}
+.word rt{font-size:.34em; color:var(--accent); font-weight:bold; letter-spacing:.02em}
+.hint{min-height:26px; margin-top:10px; font-size:14px; color:var(--sub)}
+.hint b{color:var(--accent); font-size:18px; letter-spacing:.1em}
+
+/* こたえ */
+.answer{margin-top:8px}
+.answer .mean{font-size:15px; color:var(--sub)}
+.speak{
+  margin-top:10px; border:2px solid var(--line); background:#fff; color:var(--accent);
+  border-radius:999px; padding:5px 16px; font-size:14px; font-weight:bold;
+}
+
+/* 下のボタン */
+.actions{display:flex; gap:10px; margin-top:14px}
+.actions button{flex:1; border:none; border-radius:16px; padding:15px 8px; font-size:19px; font-weight:bold; color:#fff}
+.actions button:active{transform:translateY(2px)}
+.big{background:var(--accent); box-shadow:0 4px 0 var(--accent-dark)}
+.actions .hintbtn{
+  flex:0 0 auto; background:#fff; color:var(--accent); border:2px solid var(--line);
+  box-shadow:0 4px 0 var(--line); font-size:17px; padding:13px 18px;
+}
+.yes{background:var(--ok); box-shadow:0 4px 0 #2e7d3e}
+.no{background:var(--mada); box-shadow:0 4px 0 #c97a2f}
+
+.score{margin-top:14px; text-align:center; font-size:14px; color:var(--sub)}
+.score b{color:var(--ink); font-size:17px}
+.score button{
+  margin-left:10px; border:1px solid var(--line); background:#fff; color:var(--sub);
+  border-radius:999px; padding:3px 12px; font-size:12px;
+}
+
+/* いちらん */
+.tabs{display:flex; gap:8px; justify-content:center; margin:18px 0 4px}
+.tabs button{
+  border:none; background:none; color:var(--sub); font-size:14px; font-weight:bold;
+  padding:6px 12px; border-radius:999px;
+}
+.tabs button[aria-pressed="true"]{background:#fff; color:var(--accent); box-shadow:0 1px 0 var(--line)}
+.list{margin-top:10px; background:#fff; border:2px solid var(--line); border-radius:16px; overflow:hidden}
+.list div{display:flex; gap:12px; align-items:baseline; padding:9px 14px; border-top:1px solid var(--line)}
+.list div:first-child{border-top:none}
+.list .w{
+  font-family:"UD デジタル 教科書体 NK-R","Hiragino Mincho ProN","YuMincho","Yu Mincho",serif;
+  font-size:22px; flex:0 0 auto; min-width:5.4em;
+}
+.list .w rt{font-size:.4em; color:var(--accent)}
+.list .m{font-size:12px; color:var(--sub); line-height:1.5}
+
+footer{max-width:560px; margin:0 auto; padding:20px 16px 40px; font-size:11px; color:var(--sub); line-height:1.8}
+[hidden]{display:none !important}
+</style>
+</head>
+<body>
+
+<header>
+  <h1><ruby>熟語<rt>じゅくご</rt></ruby>クイズ
+    <span class="sub"><ruby>漢検<rt>かんけん</rt></ruby>10<ruby>級<rt>きゅう</rt></ruby>・<ruby>小<rt>しょう</rt></ruby>1でならう<ruby>漢字<rt>かんじ</rt></ruby>80<ruby>字<rt>じ</rt></ruby>／タップすると<ruby>読<rt>よ</rt></ruby>みが<ruby>出<rt>で</rt></ruby>るよ</span>
+  </h1>
+</header>
+
+<div class="levels" id="levels" role="group" aria-label="難易度"></div>
+
+<main>
+  <!-- クイズ -->
+  <section id="quiz">
+    <button class="card" id="card" aria-live="polite">
+      <div class="plate"><div class="word" id="word"></div></div>
+      <div class="hint" id="hint"></div>
+      <div class="answer" id="answer" hidden>
+        <div class="mean" id="mean"></div>
+      </div>
+    </button>
+    <button class="speak" id="speak" hidden>🔊 <ruby>読<rt>よ</rt></ruby>み<ruby>上<rt>あ</rt></ruby>げる</button>
+
+    <div class="actions" id="beforeActions">
+      <button class="hintbtn" id="hintBtn">ヒント</button>
+      <button class="big" id="reveal"><ruby>答<rt>こた</rt></ruby>えを<ruby>見<rt>み</rt></ruby>る</button>
+    </div>
+    <div class="actions" id="afterActions" hidden>
+      <button class="yes" id="yes"><ruby>読<rt>よ</rt></ruby>めた！</button>
+      <button class="no" id="no">まだ</button>
+    </div>
+
+    <p class="score">
+      <ruby>正解<rt>せいかい</rt></ruby> <b id="ok">0</b> ／ <ruby>出題<rt>しゅつだい</rt></ruby> <b id="seen">0</b>
+      <button id="reset"><ruby>記録<rt>きろく</rt></ruby>を<ruby>消<rt>け</rt></ruby>す</button>
+    </p>
+  </section>
+
+  <!-- いちらん -->
+  <section id="book" hidden>
+    <div class="list" id="list"></div>
+  </section>
+
+  <div class="tabs" role="group" aria-label="画面">
+    <button id="tabQuiz" aria-pressed="true">クイズ</button>
+    <button id="tabBook" aria-pressed="false"><ruby>一覧<rt>いちらん</rt></ruby></button>
+  </div>
+</main>
+
+<footer>
+  <p id="counts"></p>
+  <p>読みが二とおりある熟語（「上手」など）は、答えが一つに決まらないので入れていません。</p>
+</footer>
+
+<script src="data.js"></script>
+<script>
+"use strict";
+
+/* ------- むずかしさ。レベルは「以下ぜんぶ」を出す ------- */
+const LEVELS = [
+  {id:1, label:"<ruby>易<rt>やさ</rt></ruby>しい"},
+  {id:2, label:"<ruby>普通<rt>ふつう</rt></ruby>"},
+  {id:3, label:"<ruby>難<rt>むずか</rt></ruby>しい"},
+];
+const SAVE = "kanken10.v1";
+
+const state = load();
+
+function load(){
+  try{
+    const s = JSON.parse(localStorage.getItem(SAVE) || "{}");
+    if(s && s.score && s.level) return s;
+  }catch(e){ /* こわれていたら作り直す */ }
+  return {level:1, score:{1:{ok:0,seen:0}, 2:{ok:0,seen:0}, 3:{ok:0,seen:0}}};
+}
+function save(){
+  try{ localStorage.setItem(SAVE, JSON.stringify(state)); }catch(e){}
+}
+
+/* 今のレベルで出す熟語 */
+function pool(){ return WORDS.filter(w => w.level <= state.level); }
+
+/* ------- 出す順番。ふくろから1枚ずつ引き、空になったら入れ直す ------- */
+let bag = [], current = null, shown = false;
+
+function shuffle(a){
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function refill(){
+  bag = shuffle(pool().slice());
+  // 前と同じ熟語がすぐ続かないようにする
+  if(current && bag.length > 1 && bag[bag.length - 1] === current){
+    [bag[0], bag[bag.length - 1]] = [bag[bag.length - 1], bag[0]];
+  }
+}
+
+const $ = id => document.getElementById(id);
+const esc = s => s.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+/* 熟字訓（七夕＝たなばた）もあるので、ふりがなは1字ずつでなく熟語ぜんたいに振る */
+function ruby(w){
+  return `<ruby>${esc(w.w)}<rt>${esc(w.y)}</rt></ruby>`;
+}
+/* 字が多いほど小さくする。4字でもカードからはみ出さないように */
+function sizeClass(w){
+  return w.w.length >= 4 ? "word len4" : w.w.length === 3 ? "word len3" : "word";
+}
+
+function next(){
+  if(!bag.length) refill();
+  current = bag.pop();
+  shown = false;
+  $("word").className = sizeClass(current);
+  $("word").textContent = current.w;      // 答えなので、ここではふりがなを振らない
+  $("answer").hidden = true;
+  $("speak").hidden = true;
+  $("hint").innerHTML = "ここを<ruby>押<rt>お</rt></ruby>すと<ruby>答<rt>こた</rt></ruby>え";
+  $("beforeActions").hidden = false;
+  $("afterActions").hidden = true;
+  window.scrollTo({top:0});
+}
+
+function reveal(){
+  if(shown) return;
+  shown = true;
+  $("word").innerHTML = ruby(current);
+  $("mean").textContent = current.m;
+  $("answer").hidden = false;
+  $("hint").innerHTML = "";
+  $("speak").hidden = !("speechSynthesis" in window);
+  $("beforeActions").hidden = true;
+  $("afterActions").hidden = false;
+}
+
+/* ヒントは、読みのさいしょの1字と長さだけ出す */
+function showHint(){
+  if(shown) return;
+  const y = [...current.y];
+  $("hint").innerHTML =
+    `<b>${esc(y[0])}${"○".repeat(y.length - 1)}</b>（${y.length}もじ）`;
+}
+
+function answered(ok){
+  const s = state.score[state.level];
+  s.seen++;
+  if(ok){
+    s.ok++;
+  }else if(bag.length >= 3){
+    // 読めなかった熟語は、少し先にもう一度出す。ふくろの残りが少ないときは入れない
+    // （入れるとすぐ次に出てしまう。どのみち次の周でまた出る）
+    const at = bag.length - (3 + Math.floor(Math.random() * 6));
+    bag.splice(Math.max(0, at), 0, current);
+  }
+  save();
+  drawScore();
+  next();
+}
+
+function drawScore(){
+  const s = state.score[state.level];
+  $("ok").textContent = s.ok;
+  $("seen").textContent = s.seen;
+}
+
+function speak(){
+  if(!("speechSynthesis" in window)) return;
+  // 漢字のままだと読みちがいをするので、ひらがなの読みのほうを聞かせる
+  const u = new SpeechSynthesisUtterance(`${current.y}。${current.m}`);
+  u.lang = "ja-JP";
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+/* ------- むずかしさのボタン ------- */
+function drawLevels(){
+  $("levels").innerHTML = LEVELS.map(l => {
+    const n = WORDS.filter(w => w.level <= l.id).length;
+    return `<button data-level="${l.id}" aria-pressed="${l.id === state.level}">
+      ${l.label}<span class="n">${n}語</span></button>`;
+  }).join("");
+  $("levels").querySelectorAll("button").forEach(b => {
+    b.onclick = () => {
+      state.level = Number(b.dataset.level);
+      save();
+      drawLevels();
+      drawScore();
+      drawList();
+      refill();
+      next();
+    };
+  });
+}
+
+/* ------- いちらん（おぼえなおす用） ------- */
+function drawList(){
+  $("list").innerHTML = pool().map(w =>
+    `<div><span class="w">${ruby(w)}</span><span class="m">${esc(w.m)}</span></div>`).join("");
+}
+
+function tab(which){
+  const q = which === "quiz";
+  $("quiz").hidden = !q;
+  $("book").hidden = q;
+  $("tabQuiz").setAttribute("aria-pressed", String(q));
+  $("tabBook").setAttribute("aria-pressed", String(!q));
+}
+
+/* ------- つなぎこみ ------- */
+$("card").onclick = reveal;
+$("reveal").onclick = reveal;
+$("hintBtn").onclick = showHint;
+$("speak").onclick = speak;
+$("yes").onclick = () => answered(true);
+$("no").onclick = () => answered(false);
+$("reset").onclick = () => {
+  if(!confirm("この難易度（なんいど）の記録（きろく）を消（け）しますか？")) return;
+  state.score[state.level] = {ok:0, seen:0};
+  save();
+  drawScore();
+};
+$("tabQuiz").onclick = () => tab("quiz");
+$("tabBook").onclick = () => tab("book");
+document.addEventListener("keydown", e => {
+  if(e.key === " " || e.key === "Enter"){ e.preventDefault(); shown ? answered(true) : reveal(); }
+});
+
+$("counts").textContent =
+  `漢検10級の漢字80字だけでできた熟語を${WORDS.length}語のせています。80字が全部どこかに出てきます。`;
+
+drawLevels();
+drawScore();
+drawList();
+refill();
+next();
+</script>
+</body>
+</html>
